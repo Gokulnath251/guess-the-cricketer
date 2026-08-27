@@ -2,9 +2,9 @@ import streamlit as st
 import random
 from difflib import SequenceMatcher
 
-# ============================================================
-# PAGE CONFIG
-# ============================================================
+# =========================================================
+# PAGE
+# =========================================================
 
 st.set_page_config(
     page_title="Guess The Cricketer",
@@ -12,330 +12,64 @@ st.set_page_config(
     layout="centered"
 )
 
-# ============================================================
-# CSS
-# ============================================================
+# =========================================================
+# SIMPLE PAGE STYLE
+# =========================================================
 
 st.markdown("""
 <style>
-
-/* =========================
-   PAGE
-   ========================= */
-
 .stApp {
     background: #07182d;
 }
 
 .block-container {
-    max-width: 680px;
-    padding-top: 0.8rem;
+    max-width: 700px;
+    padding-top: 1rem;
     padding-bottom: 1rem;
 }
 
-
-/* =========================
-   TITLE
-   ========================= */
-
-.title {
-    text-align: center;
-    margin-bottom: 10px;
+h1 {
+    color: #7CFF21 !important;
 }
 
-.title h1 {
-    color: #7cff21 !important;
-    font-size: 34px !important;
-    font-weight: 900 !important;
-    margin: 0 !important;
+h2, h3 {
+    color: white !important;
 }
 
-.title p {
-    color: #9db8d3 !important;
-    font-size: 12px !important;
-    margin: 2px 0 0 0 !important;
+p, label {
+    color: #e6edf5 !important;
 }
 
-
-/* =========================
-   STATS
-   ========================= */
-
-.stat-box {
-    background: #102b49;
-    border: 1px solid #2d587e;
-    border-radius: 11px;
-    padding: 7px 4px;
-    text-align: center;
-}
-
-.stat-label {
+.stCaption {
     color: #9bb5cf !important;
-    font-size: 10px !important;
-    font-weight: 700 !important;
 }
 
-.stat-number {
-    color: #ffffff !important;
-    font-size: 21px !important;
-    font-weight: 900 !important;
+/* Input */
+input {
+    color: white !important;
 }
 
-
-/* =========================
-   GAME AREA
-   ========================= */
-
-.game-box {
-    background: #0a2038;
-    border: 1px solid #28577e;
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 10px;
-}
-
-
-/* =========================
-   WHO AM I
-   ========================= */
-
-.who-title {
-    text-align: center;
-    color: #ffffff !important;
-    font-size: 21px !important;
-    font-weight: 900 !important;
-    margin-bottom: 4px;
-}
-
-.who-subtitle {
-    text-align: center;
-    color: #7895b2 !important;
-    font-size: 12px !important;
-    margin-bottom: 10px;
-}
-
-
-/* =========================
-   MYSTERY PLAYER
-   ========================= */
-
-.mystery {
-    text-align: center;
-    background: #08182b;
-    border-radius: 10px;
-    padding: 7px;
-    margin-bottom: 10px;
-}
-
-.mystery-icon {
-    font-size: 34px;
-}
-
-.mystery-text {
-    color: #718da9 !important;
-    font-size: 11px !important;
-}
-
-
-/* =========================
-   CLUE
-   ========================= */
-
-.clue-box {
-    background: #153a5d;
-    border-left: 4px solid #ffd400;
-    border-radius: 8px;
-    padding: 11px;
-    color: #ffffff !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    margin: 8px 0;
-}
-
-.clue-number {
-    text-align: center;
-    color: #ffd400 !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    margin: 7px 0;
-}
-
-
-/* =========================
-   INPUT
-   ========================= */
-
-div[data-testid="stTextInput"] label {
-    color: #ffffff !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-}
-
-div[data-testid="stTextInput"] input {
-    background: #061426 !important;
-    color: #ffffff !important;
-
-    border: 1px solid #3974a3 !important;
-    border-radius: 9px !important;
-
+/* Buttons */
+button {
     min-height: 40px !important;
-    font-size: 14px !important;
 }
 
-div[data-testid="stTextInput"] input::placeholder {
-    color: #7692ae !important;
-    opacity: 1 !important;
-}
-
-
-/* =========================
-   ALL BUTTONS
-   ========================= */
-
-div.stButton > button {
-    width: 100% !important;
-    min-height: 40px !important;
-
-    background: #153b61 !important;
-    color: #ffffff !important;
-
-    border: 1px solid #477da5 !important;
-    border-radius: 9px !important;
-
-    font-size: 14px !important;
-    font-weight: 800 !important;
-}
-
-div.stButton > button p {
-    color: #ffffff !important;
-}
-
-div.stButton > button:hover {
-    background: #1c4d79 !important;
-    color: #ffffff !important;
-
-    border-color: #72d9ff !important;
-}
-
-
-/* =========================
-   GUESS BUTTON
-   ========================= */
-
-div[data-testid="stFormSubmitButton"] > button {
-    width: 100% !important;
-    min-height: 40px !important;
-
-    background: #6ee51b !important;
-    color: #071400 !important;
-
-    border: none !important;
-    border-radius: 9px !important;
-
-    font-size: 14px !important;
-    font-weight: 900 !important;
-}
-
-div[data-testid="stFormSubmitButton"] > button p {
-    color: #071400 !important;
-}
-
-
-/* =========================
-   RESULT
-   ========================= */
-
-.result-box {
-    background: #073a32;
-    border: 1px solid #16c99a;
-    border-radius: 9px;
-    padding: 9px;
-    margin-top: 9px;
-    text-align: center;
-    color: #ffffff !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-}
-
-
-/* =========================
-   START INFO
-   ========================= */
-
-.info-box {
-    background: #102f52;
-    border: 1px solid #2f6696;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    color: #d8e9f8 !important;
-    font-size: 13px !important;
-}
-
-
-/* =========================
-   FINAL
-   ========================= */
-
-.final-box {
-    background: #102b49;
-    border: 2px solid #ffd400;
-    border-radius: 16px;
-    padding: 22px;
-    text-align: center;
-}
-
-.final-box h1 {
-    color: #ffd400 !important;
-    font-size: 32px !important;
-    margin: 5px !important;
-}
-
-.final-score {
-    color: #7cff21 !important;
-    font-size: 36px !important;
-    font-weight: 900 !important;
-}
-
-
-/* =========================
-   MOBILE
-   ========================= */
-
+/* Mobile */
 @media (max-width: 600px) {
-
     .block-container {
         padding: 0.5rem;
     }
-
-    .title h1 {
-        font-size: 28px !important;
-    }
-
-    .game-box {
-        padding: 10px;
-    }
-
-    .clue-box {
-        font-size: 13px !important;
-    }
-
-    .stat-number {
-        font-size: 19px !important;
-    }
 }
-
 </style>
 """, unsafe_allow_html=True)
 
 
-# ============================================================
-# PLAYER DATABASE
-# ============================================================
+# =========================================================
+# PLAYERS
+# =========================================================
 
 players = [
 
-    # INDIA
     {
         "name": "MS Dhoni",
         "aliases": ["dhoni", "msd", "ms dhoni"],
@@ -446,7 +180,6 @@ players = [
         ]
     },
 
-    # AUSTRALIA
     {
         "name": "Ricky Ponting",
         "aliases": ["ponting", "ricky", "ricky ponting"],
@@ -502,7 +235,6 @@ players = [
         ]
     },
 
-    # ENGLAND
     {
         "name": "Ben Stokes",
         "aliases": ["stokes", "ben stokes"],
@@ -536,7 +268,6 @@ players = [
         ]
     },
 
-    # SOUTH AFRICA
     {
         "name": "AB de Villiers",
         "aliases": [
@@ -577,7 +308,6 @@ players = [
         ]
     },
 
-    # PAKISTAN
     {
         "name": "Babar Azam",
         "aliases": ["babar", "babar azam"],
@@ -600,7 +330,6 @@ players = [
         ]
     },
 
-    # SRI LANKA
     {
         "name": "Kumar Sangakkara",
         "aliases": ["sanga", "sangakkara", "kumar sangakkara"],
@@ -623,7 +352,6 @@ players = [
         ]
     },
 
-    # WEST INDIES
     {
         "name": "Chris Gayle",
         "aliases": ["gayle", "chris gayle", "universe boss"],
@@ -646,7 +374,6 @@ players = [
         ]
     },
 
-    # NEW ZEALAND
     {
         "name": "Kane Williamson",
         "aliases": ["kane", "williamson", "kane williamson"],
@@ -669,7 +396,6 @@ players = [
         ]
     },
 
-    # AFGHANISTAN
     {
         "name": "Rashid Khan",
         "aliases": ["rashid", "rashid khan"],
@@ -683,56 +409,59 @@ players = [
 ]
 
 
-# ============================================================
+# =========================================================
 # SESSION STATE
-# ============================================================
+# =========================================================
 
-defaults = {
-    "started": False,
-    "player": None,
-    "clue": 0,
-    "score": 0,
-    "round": 1,
-    "finished": False,
-    "game_over": False,
-    "message": ""
-}
+if "started" not in st.session_state:
+    st.session_state.started = False
 
-for key, value in defaults.items():
+if "player" not in st.session_state:
+    st.session_state.player = None
 
-    if key not in st.session_state:
-        st.session_state[key] = value
+if "clue" not in st.session_state:
+    st.session_state.clue = 0
+
+if "score" not in st.session_state:
+    st.session_state.score = 0
+
+if "round" not in st.session_state:
+    st.session_state.round = 1
+
+if "finished" not in st.session_state:
+    st.session_state.finished = False
+
+if "game_over" not in st.session_state:
+    st.session_state.game_over = False
+
+if "message" not in st.session_state:
+    st.session_state.message = ""
 
 
-# ============================================================
+# =========================================================
 # FUNCTIONS
-# ============================================================
+# =========================================================
 
 def choose_player():
-
     st.session_state.player = random.choice(players)
-
     st.session_state.clue = 0
     st.session_state.finished = False
     st.session_state.message = ""
 
 
 def start_game():
-
     st.session_state.started = True
     st.session_state.score = 0
     st.session_state.round = 1
     st.session_state.game_over = False
-
     choose_player()
 
 
 def normalize(text):
-
     return "".join(
-        character.lower()
-        for character in text
-        if character.isalnum()
+        c.lower()
+        for c in text
+        if c.isalnum()
     )
 
 
@@ -743,19 +472,15 @@ def is_correct(answer, player):
     if not answer:
         return False
 
-    possible_answers = [
-        player["name"]
-    ] + player["aliases"]
+    answers = [player["name"]] + player["aliases"]
 
-    for option in possible_answers:
+    for option in answers:
 
         option = normalize(option)
 
-        # Exact match
         if answer == option:
             return True
 
-        # Small spelling mistake
         similarity = SequenceMatcher(
             None,
             answer,
@@ -774,9 +499,7 @@ def submit_answer(answer):
 
     if is_correct(answer, player):
 
-        points = 10 - (
-            st.session_state.clue * 2
-        )
+        points = 10 - (st.session_state.clue * 2)
 
         if points < 4:
             points = 4
@@ -784,7 +507,7 @@ def submit_answer(answer):
         st.session_state.score += points
 
         st.session_state.message = (
-            f"🎉 Correct! {player['name']}  •  "
+            f"🎉 Correct! **{player['name']}** "
             f"⭐ +{points} points"
         )
 
@@ -803,7 +526,7 @@ def submit_answer(answer):
         else:
 
             st.session_state.message = (
-                f"❌ The answer was {player['name']}."
+                f"❌ The answer was **{player['name']}**."
             )
 
             st.session_state.finished = True
@@ -812,51 +535,34 @@ def submit_answer(answer):
 def next_round():
 
     if st.session_state.round >= 5:
-
         st.session_state.game_over = True
 
     else:
-
         st.session_state.round += 1
         choose_player()
 
 
-# ============================================================
+# =========================================================
 # START SCREEN
-# ============================================================
+# =========================================================
 
 if not st.session_state.started:
 
-    st.markdown(
-        """
-        <div class="title">
-            <h1>🏏 GUESS THE CRICKETER</h1>
-            <p>Think you know cricket? Prove it!</p>
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.title("🏏 Guess The Cricketer")
+
+    st.caption("Think you know cricket? Prove it! 🔥")
+
+    st.info(
+        "💡 Guess early to score more points!"
     )
 
-    st.markdown(
-        """
-        <div class="info-box">
-            💡 Guess early to score more points!
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.write("")
-
-    st.markdown("### 🎮 How to play")
+    st.subheader("🎮 How to Play")
 
     st.write("🕵️ A cricketer is selected randomly.")
     st.write("💡 You get 4 clues.")
     st.write("⭐ Fewer clues = more points.")
     st.write("🔥 Small spelling mistakes are allowed.")
     st.write("🏆 Complete 5 rounds.")
-
-    st.write("")
 
     st.button(
         "🔥 START GAME",
@@ -865,72 +571,40 @@ if not st.session_state.started:
     )
 
 
-# ============================================================
+# =========================================================
 # FINAL SCREEN
-# ============================================================
+# =========================================================
 
 elif st.session_state.game_over:
 
-    st.markdown(
-        f"""
-        <div class="final-box">
+    st.title("🏆 Game Complete!")
 
-            <div style="font-size:50px;">
-                🏆
-            </div>
-
-            <h1>
-                GAME COMPLETE!
-            </h1>
-
-            <p>
-                You completed all 5 rounds!
-            </p>
-
-            <div class="final-score">
-                {st.session_state.score} / 50
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.success(
+        f"You completed all 5 rounds!"
     )
 
-    st.write("")
+    st.metric(
+        "FINAL SCORE",
+        f"{st.session_state.score} / 50"
+    )
 
     score = st.session_state.score
 
     if score >= 45:
-
-        st.success(
-            "👑 CRICKET GOD! Absolutely insane!"
-        )
+        st.balloons()
+        st.success("👑 CRICKET GOD!")
 
     elif score >= 35:
-
-        st.success(
-            "🔥 CRICKET MASTER!"
-        )
+        st.success("🔥 CRICKET MASTER!")
 
     elif score >= 25:
-
-        st.info(
-            "👏 Great job!"
-        )
+        st.info("👏 Great job!")
 
     elif score >= 15:
-
-        st.warning(
-            "😄 Not bad!"
-        )
+        st.warning("😄 Not bad!")
 
     else:
-
-        st.error(
-            "😂 Time to watch more cricket!"
-        )
-
-    st.write("")
+        st.error("😂 Time to watch more cricket!")
 
     st.button(
         "🔄 PLAY AGAIN",
@@ -939,24 +613,20 @@ elif st.session_state.game_over:
     )
 
 
-# ============================================================
+# =========================================================
 # GAME SCREEN
-# ============================================================
+# =========================================================
 
 else:
 
-    # TITLE
-    st.markdown(
-        """
-        <div class="title">
-            <h1>🏏 GUESS THE CRICKETER</h1>
-            <p>Who am I?</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.title("🏏 Guess The Cricketer")
 
+    st.caption("Can you identify the mystery player?")
+
+    # -------------------------
     # STATS
+    # -------------------------
+
     col1, col2, col3 = st.columns(3)
 
     points = 10 - (
@@ -967,120 +637,53 @@ else:
         points = 4
 
     with col1:
-
-        st.markdown(
-            f"""
-            <div class="stat-box">
-                <div class="stat-label">
-                    ROUND
-                </div>
-
-                <div class="stat-number">
-                    {st.session_state.round}/5
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.metric(
+            "ROUND",
+            f"{st.session_state.round}/5"
         )
 
     with col2:
-
-        st.markdown(
-            f"""
-            <div class="stat-box">
-                <div class="stat-label">
-                    ⭐ SCORE
-                </div>
-
-                <div class="stat-number">
-                    {st.session_state.score}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.metric(
+            "⭐ SCORE",
+            st.session_state.score
         )
 
     with col3:
-
-        st.markdown(
-            f"""
-            <div class="stat-box">
-                <div class="stat-label">
-                    🏆 POINTS
-                </div>
-
-                <div class="stat-number">
-                    {points}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.metric(
+            "🏆 POINTS",
+            points
         )
 
-    # PROGRESS
     st.progress(
         st.session_state.round / 5
     )
 
-    # GAME BOX
-    st.markdown(
-        '<div class="game-box">',
-        unsafe_allow_html=True
-    )
+    # -------------------------
+    # GAME
+    # -------------------------
 
-    st.markdown(
-        '<div class="who-title">🔍 WHO AM I?</div>',
-        unsafe_allow_html=True
-    )
+    st.divider()
 
-    st.markdown(
-        '<div class="who-subtitle">Identify the mystery cricketer</div>',
-        unsafe_allow_html=True
-    )
+    st.subheader("🔍 WHO AM I?")
 
-    st.markdown(
-        """
-        <div class="mystery">
-
-            <div class="mystery-icon">
-                🏏❓
-            </div>
-
-            <div class="mystery-text">
-                MYSTERY PLAYER
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.caption("🏏 Mystery player")
 
     player = st.session_state.player
 
-    # CURRENT CLUE
     current_clue = player["clues"][
         st.session_state.clue
     ]
 
-    st.markdown(
-        f"""
-        <div class="clue-box">
-            {current_clue}
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.info(current_clue)
+
+    st.caption(
+        f"💡 Clue {st.session_state.clue + 1} / 4"
     )
 
-    st.markdown(
-        f"""
-        <div class="clue-number">
-            💡 CLUE {st.session_state.clue + 1} / 4
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # -------------------------
+    # ANSWER
+    # -------------------------
 
-    # ANSWER AREA
     if not st.session_state.finished:
 
         with st.form("guess_form"):
@@ -1105,7 +708,7 @@ else:
                 else:
 
                     st.warning(
-                        "Please enter a name."
+                        "Please enter a cricketer's name."
                     )
 
         if st.button(
@@ -1123,25 +726,28 @@ else:
             else:
 
                 st.warning(
-                    "All clues are already revealed."
+                    "All clues are already revealed!"
                 )
 
+    # -------------------------
     # RESULT
+    # -------------------------
+
     if st.session_state.message:
 
-        st.markdown(
-            f"""
-            <div class="result-box">
-                {st.session_state.message}
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.success(
+            st.session_state.message
+            if "Correct" in st.session_state.message
+            else st.session_state.message
         )
 
+    # -------------------------
     # NEXT ROUND
+    # -------------------------
+
     if st.session_state.finished:
 
-        st.write("")
+        st.divider()
 
         if st.session_state.round < 5:
 
@@ -1158,8 +764,3 @@ else:
                 on_click=next_round,
                 use_container_width=True
             )
-
-    st.markdown(
-        '</div>',
-        unsafe_allow_html=True
-    )

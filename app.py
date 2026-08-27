@@ -15,91 +15,351 @@ st.set_page_config(
 # CRICKETER DATABASE
 # -----------------------------
 players = [
+
+    # 🇮🇳 INDIA
     {
         "name": "MS Dhoni",
         "aliases": ["dhoni", "msd", "ms dhoni"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🧤 I am famous for my wicketkeeping.",
-            "🏆 I have captained India to a World Cup victory.",
+            "🏆 I captained India to the 2007 T20 World Cup.",
             "🦁 I am strongly associated with Chennai Super Kings."
         ]
     },
+
     {
         "name": "Virat Kohli",
         "aliases": ["kohli", "virat", "virat kohli"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
-            "🏏 I am a right-handed batsman.",
-            "👑 I am often called the King of Indian cricket.",
-            "🔥 I have scored many international centuries."
+            "🏏 I am a right-handed batter.",
+            "👑 I am popularly called the King of Indian cricket.",
+            "🔥 I am famous for scoring hundreds."
         ]
     },
+
     {
         "name": "Rohit Sharma",
         "aliases": ["rohit", "rohit sharma", "hitman"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
-            "🏏 I am an opening batsman.",
+            "🏏 I am a right-handed opening batter.",
             "💯 I have scored multiple ODI double centuries.",
-            "🏆 I have captained India."
+            "🎯 Fans often call me the Hitman."
         ]
     },
+
     {
         "name": "Suresh Raina",
         "aliases": ["raina", "suresh raina", "mr ipl"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
-            "🏏 I am known mainly as a white-ball cricketer.",
+            "🏏 I was known mainly for white-ball cricket.",
             "💛 I am strongly associated with Chennai Super Kings.",
             "👑 I am popularly called Mr. IPL."
         ]
     },
+
     {
         "name": "Sachin Tendulkar",
         "aliases": ["sachin", "tendulkar", "sachin tendulkar"],
         "clues": [
             "🇮🇳 I am an Indian cricket legend.",
-            "🏏 I was known as a technically gifted batsman.",
+            "🏏 I was known for technically brilliant batting.",
             "💯 I scored 100 international centuries.",
             "🏆 I was part of India's 2011 World Cup-winning team."
         ]
     },
+
+    {
+        "name": "Jasprit Bumrah",
+        "aliases": ["bumrah", "jasprit", "jasprit bumrah"],
+        "clues": [
+            "🇮🇳 I am an Indian cricketer.",
+            "⚡ I am a fast bowler.",
+            "🎯 My unusual bowling action makes me easy to recognize.",
+            "🔥 I am famous for my yorkers."
+        ]
+    },
+
+    {
+        "name": "Ravindra Jadeja",
+        "aliases": ["jadeja", "jaddu", "ravindra jadeja"],
+        "clues": [
+            "🇮🇳 I am an Indian cricketer.",
+            "🏏 I am a left-handed batter.",
+            "🎯 I am a left-arm spinner.",
+            "💛 I have a strong association with Chennai Super Kings."
+        ]
+    },
+
+    {
+        "name": "Hardik Pandya",
+        "aliases": ["hardik", "pandya", "hardik pandya"],
+        "clues": [
+            "🇮🇳 I am an Indian cricketer.",
+            "🏏 I am an all-rounder.",
+            "⚡ I bowl right-arm fast-medium.",
+            "💙 I have played for Mumbai Indians."
+        ]
+    },
+
+    {
+        "name": "KL Rahul",
+        "aliases": ["rahul", "kl rahul", "k l rahul"],
+        "clues": [
+            "🇮🇳 I am an Indian cricketer.",
+            "🏏 I am a right-handed batter.",
+            "🧤 I can also keep wickets.",
+            "🔥 I have played across all three formats."
+        ]
+    },
+
+    {
+        "name": "Yuvraj Singh",
+        "aliases": ["yuvi", "yuvraj", "yuvraj singh"],
+        "clues": [
+            "🇮🇳 I am an Indian cricket legend.",
+            "🏏 I was a left-handed batter and all-rounder.",
+            "🔥 I once hit six sixes in an over in T20 cricket.",
+            "🏆 I was Player of the Tournament at the 2011 World Cup."
+        ]
+    },
+
+    # 🇦🇺 AUSTRALIA
+    {
+        "name": "Ricky Ponting",
+        "aliases": ["ponting", "ricky", "ricky ponting"],
+        "clues": [
+            "🇦🇺 I represented Australia.",
+            "🏏 I was a right-handed batter.",
+            "🧢 I captained Australia.",
+            "🏆 I won multiple World Cups as captain."
+        ]
+    },
+
+    {
+        "name": "Steve Smith",
+        "aliases": ["smith", "steve smith"],
+        "clues": [
+            "🇦🇺 I represent Australia.",
+            "🏏 I am a right-handed batter.",
+            "🧠 I am known for an unusual batting technique.",
+            "🔥 I have been highly successful in Test cricket."
+        ]
+    },
+
+    {
+        "name": "David Warner",
+        "aliases": ["warner", "david warner"],
+        "clues": [
+            "🇦🇺 I represented Australia.",
+            "🏏 I am a left-handed opening batter.",
+            "💥 I am known for aggressive batting.",
+            "🔥 I have played for Sunrisers Hyderabad in the IPL."
+        ]
+    },
+
+    {
+        "name": "Glenn Maxwell",
+        "aliases": ["maxwell", "glenn maxwell", "maxi"],
+        "clues": [
+            "🇦🇺 I represent Australia.",
+            "🏏 I am an explosive all-rounder.",
+            "💥 I am famous for innovative shots.",
+            "❤️ I have played for Royal Challengers Bengaluru."
+        ]
+    },
+
+    {
+        "name": "Pat Cummins",
+        "aliases": ["cummins", "pat cummins"],
+        "clues": [
+            "🇦🇺 I represent Australia.",
+            "⚡ I am a fast bowler.",
+            "🧢 I have captained Australia.",
+            "🏆 I have won major ICC trophies with Australia."
+        ]
+    },
+
+    # 🏴 ENGLAND
+    {
+        "name": "Ben Stokes",
+        "aliases": ["stokes", "ben stokes"],
+        "clues": [
+            "🏴 I represent England.",
+            "🏏 I am an all-rounder.",
+            "🔥 I am known for performing under pressure.",
+            "🏆 I was part of England's 2019 World Cup-winning team."
+        ]
+    },
+
+    {
+        "name": "Jos Buttler",
+        "aliases": ["buttler", "jos buttler"],
+        "clues": [
+            "🏴 I represent England.",
+            "🧤 I am a wicketkeeper-batter.",
+            "💥 I am known for aggressive batting.",
+            "🏆 I was part of England's 2019 World Cup-winning team."
+        ]
+    },
+
+    {
+        "name": "Joe Root",
+        "aliases": ["root", "joe root"],
+        "clues": [
+            "🏴 I represent England.",
+            "🏏 I am a right-handed batter.",
+            "🎯 I occasionally bowl off-spin.",
+            "🔥 I am one of England's leading Test run-scorers."
+        ]
+    },
+
+    # 🇿🇦 SOUTH AFRICA
     {
         "name": "AB de Villiers",
         "aliases": [
             "ab",
             "abd",
+            "abd de villiers",
             "ab de villiers",
             "ab devilliers",
             "ab de villers",
             "devilliers"
         ],
         "clues": [
-            "🌍 I represented South Africa.",
+            "🇿🇦 I represented South Africa.",
             "🏏 I was famous for innovative batting.",
             "⚡ I could score extremely quickly.",
-            "🔥 Fans often called me Mr. 360."
+            "🔥 Fans called me Mr. 360."
         ]
     },
+
+    {
+        "name": "Jacques Kallis",
+        "aliases": ["kallis", "jacques kallis"],
+        "clues": [
+            "🇿🇦 I represented South Africa.",
+            "🏏 I was an all-rounder.",
+            "💪 I was known for both batting and bowling.",
+            "🏆 I am regarded as one of cricket's greatest all-rounders."
+        ]
+    },
+
+    {
+        "name": "Quinton de Kock",
+        "aliases": ["de kock", "quinton", "quinton de kock"],
+        "clues": [
+            "🇿🇦 I represented South Africa.",
+            "🧤 I am a wicketkeeper-batter.",
+            "🏏 I am a left-handed batter.",
+            "💥 I am known for aggressive opening batting."
+        ]
+    },
+
+    # 🇵🇰 PAKISTAN
+    {
+        "name": "Babar Azam",
+        "aliases": ["babar", "babar azam"],
+        "clues": [
+            "🇵🇰 I represent Pakistan.",
+            "🏏 I am a right-handed batter.",
+            "⭐ I have been ranked among the world's top batters.",
+            "🧢 I have captained Pakistan."
+        ]
+    },
+
+    {
+        "name": "Shaheen Afridi",
+        "aliases": ["shaheen", "shaheen afridi"],
+        "clues": [
+            "🇵🇰 I represent Pakistan.",
+            "⚡ I am a left-arm fast bowler.",
+            "🎯 I am known for dangerous swing bowling.",
+            "🔥 I have been a key Pakistan pace bowler."
+        ]
+    },
+
+    # 🇱🇰 SRI LANKA
+    {
+        "name": "Kumar Sangakkara",
+        "aliases": ["sanga", "sangakkara", "kumar sangakkara"],
+        "clues": [
+            "🇱🇰 I represented Sri Lanka.",
+            "🧤 I was a wicketkeeper-batter.",
+            "🏏 I was a left-handed batter.",
+            "🔥 I was one of Sri Lanka's greatest batters."
+        ]
+    },
+
+    {
+        "name": "Lasith Malinga",
+        "aliases": ["malinga", "lasith malinga"],
+        "clues": [
+            "🇱🇰 I represented Sri Lanka.",
+            "⚡ I was a fast bowler.",
+            "🎯 I was famous for my yorkers.",
+            "🌀 My unusual sling-arm action was instantly recognizable."
+        ]
+    },
+
+    # 🌴 WEST INDIES
     {
         "name": "Chris Gayle",
         "aliases": ["gayle", "chris gayle", "universe boss"],
         "clues": [
             "🌴 I represented the West Indies.",
-            "🏏 I am a powerful left-handed batsman.",
+            "🏏 I am a powerful left-handed batter.",
             "💥 I am famous for huge sixes.",
-            "🔥 I am known as the Universe Boss."
+            "🔥 Fans know me as the Universe Boss."
         ]
     },
+
     {
-        "name": "Jasprit Bumrah",
-        "aliases": ["bumrah", "jasprit", "jasprit bumrah"],
+        "name": "Brian Lara",
+        "aliases": ["lara", "brian lara"],
         "clues": [
-            "🇮🇳 I am an Indian cricketer.",
-            "🎯 I am a fast bowler.",
-            "⚡ I have an unusual bowling action.",
-            "🔥 I am known for deadly yorkers."
+            "🌴 I represented the West Indies.",
+            "🏏 I was a left-handed batter.",
+            "💯 I am famous for enormous Test innings.",
+            "👑 I am considered one of cricket's greatest batters."
+        ]
+    },
+
+    # 🇳🇿 NEW ZEALAND
+    {
+        "name": "Kane Williamson",
+        "aliases": ["kane", "williamson", "kane williamson"],
+        "clues": [
+            "🇳🇿 I represent New Zealand.",
+            "🏏 I am a right-handed batter.",
+            "🧠 I am known for calm and technically strong batting.",
+            "🧢 I have captained New Zealand."
+        ]
+    },
+
+    {
+        "name": "Brendon McCullum",
+        "aliases": ["baz", "mccullum", "brendon mccullum"],
+        "clues": [
+            "🇳🇿 I represented New Zealand.",
+            "🏏 I was an aggressive batter.",
+            "🧤 I also kept wickets.",
+            "💥 I was known for attacking cricket."
+        ]
+    },
+
+    # 🇦🇫 AFGHANISTAN
+    {
+        "name": "Rashid Khan",
+        "aliases": ["rashid", "rashid khan"],
+        "clues": [
+            "🇦🇫 I represent Afghanistan.",
+            "🎯 I am a leg-spinner.",
+            "⚡ I am known for bowling quickly through the air.",
+            "🔥 I have been a major T20 cricket star."
         ]
     }
 ]
@@ -162,10 +422,6 @@ def next_round():
 
 
 def normalize_text(text):
-    """
-    Remove spaces, punctuation and capitalization
-    so small formatting differences don't matter.
-    """
     return "".join(
         character.lower()
         for character in text
@@ -174,12 +430,6 @@ def normalize_text(text):
 
 
 def is_correct_answer(answer, player):
-    """
-    Accept:
-    - Exact name
-    - Aliases
-    - Small spelling mistakes
-    """
 
     answer = normalize_text(answer)
 
@@ -196,14 +446,13 @@ def is_correct_answer(answer, player):
         if answer == possible:
             return True
 
-        # Similar spelling
+        # Minor spelling mistakes
         similarity = SequenceMatcher(
             None,
             answer,
             possible
         ).ratio()
 
-        # Accept minor spelling mistakes
         if similarity >= 0.78:
             return True
 
@@ -233,7 +482,7 @@ def check_answer(answer):
 
     else:
 
-        if st.session_state.clue_number < len(player["clues"]) - 1:
+        if st.session_state.clue_number < 3:
 
             st.session_state.clue_number += 1
 
@@ -258,7 +507,7 @@ def check_answer(answer):
 st.title("🏏 Guess The Cricketer")
 
 st.caption(
-    "Can you identify the cricketer using the fewest clues?"
+    "Think you know cricket? Prove it!"
 )
 
 
@@ -267,20 +516,24 @@ st.caption(
 # -----------------------------
 if not st.session_state.started:
 
-    st.markdown("## 🎮 How to Play")
+    st.markdown("## 🎮 GUESS THE CRICKETER")
 
     st.write(
         """
-        🕵️ A cricketer will be selected randomly.
+        🕵️ A random cricketer will be selected.
 
-        💡 You will receive clues one by one.
+        💡 You'll get clues one by one.
 
-        ⭐ The fewer clues you need, the more points you earn.
+        ⭐ Guess early to earn more points.
 
-        🏆 There are 5 rounds.
+        🏆 Complete 5 rounds.
 
-        🔥 Try to get the highest score!
+        🔥 Try to become the Cricket Master!
         """
+    )
+
+    st.info(
+        "💡 Small spelling mistakes are allowed!"
     )
 
     st.button(
@@ -297,14 +550,14 @@ elif not st.session_state.game_over:
 
     st.progress(
         st.session_state.round / 5,
-        text=f"Round {st.session_state.round} / 5"
+        text=f"🏏 ROUND {st.session_state.round} / 5"
     )
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.metric(
-            "⭐ Score",
+            "⭐ SCORE",
             st.session_state.score
         )
 
@@ -316,13 +569,13 @@ elif not st.session_state.game_over:
         )
 
         st.metric(
-            "🏆 Points",
+            "🏆 POINTS",
             points_left
         )
 
     st.divider()
 
-    st.subheader("🔍 Who am I?")
+    st.subheader("🔍 WHO AM I?")
 
     player = st.session_state.player
 
@@ -333,14 +586,12 @@ elif not st.session_state.game_over:
     st.info(current_clue)
 
     st.caption(
-        f"Clue {st.session_state.clue_number + 1} "
-        f"of {len(player['clues'])}"
+        f"💡 Clue {st.session_state.clue_number + 1} / 4"
     )
 
     # -----------------------------
     # ANSWER INPUT
     # -----------------------------
-
     if not st.session_state.round_finished:
 
         with st.form("guess_form"):
@@ -366,13 +617,12 @@ elif not st.session_state.game_over:
                 else:
 
                     st.warning(
-                        "⚠️ Enter a cricketer's name first!"
+                        "⚠️ Enter a name first!"
                     )
 
         # -----------------------------
         # NEXT CLUE
         # -----------------------------
-
         if st.button(
             "💡 NEXT CLUE",
             use_container_width=True
@@ -381,7 +631,6 @@ elif not st.session_state.game_over:
             if st.session_state.clue_number < 3:
 
                 st.session_state.clue_number += 1
-
                 st.session_state.message = ""
 
                 st.rerun()
@@ -389,13 +638,12 @@ elif not st.session_state.game_over:
             else:
 
                 st.warning(
-                    "No more clues available!"
+                    "🚫 No more clues!"
                 )
 
     # -----------------------------
-    # RESULT
+    # RESULT MESSAGE
     # -----------------------------
-
     if st.session_state.message:
 
         st.divider()
@@ -415,7 +663,6 @@ elif not st.session_state.game_over:
     # -----------------------------
     # NEXT ROUND
     # -----------------------------
-
     if st.session_state.round_finished:
 
         if st.session_state.round < 5:
@@ -449,7 +696,13 @@ else:
         f"{st.session_state.score} / 50"
     )
 
-    if st.session_state.score >= 40:
+    if st.session_state.score >= 45:
+
+        st.success(
+            "👑 CRICKET GOD! Absolutely insane!"
+        )
+
+    elif st.session_state.score >= 35:
 
         st.success(
             "🔥 CRICKET MASTER! Outstanding!"
@@ -461,16 +714,22 @@ else:
             "👏 Great job! You know your cricket!"
         )
 
-    else:
+    elif st.session_state.score >= 15:
 
         st.warning(
-            "😄 Good try! Time for a rematch!"
+            "😄 Not bad! Time to sharpen your cricket knowledge!"
+        )
+
+    else:
+
+        st.error(
+            "😂 Looks like you need to watch more cricket!"
         )
 
     st.divider()
 
     st.write(
-        "Ready for another game?"
+        "Think you can beat your score?"
     )
 
     st.button(

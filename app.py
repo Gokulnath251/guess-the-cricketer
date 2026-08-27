@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-import textwrap
 from difflib import SequenceMatcher
 
 # =========================================================
@@ -17,458 +16,289 @@ st.set_page_config(
 # CUSTOM CSS
 # =========================================================
 
-st.markdown(
-    textwrap.dedent("""
-    <style>
+st.html("""
+<style>
 
-    /* ---------- MAIN BACKGROUND ---------- */
+.stApp {
+    background:
+        radial-gradient(circle at 50% 0%, #173f72 0%, #081b36 38%, #020914 100%);
+    color: white;
+}
 
-    .stApp {
-        background:
-            radial-gradient(
-                circle at 50% 0%,
-                #173f72 0%,
-                #081b36 38%,
-                #020914 100%
-            );
-        color: white;
-    }
+.block-container {
+    max-width: 1050px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}
+
+/* TITLE */
+
+.game-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: white;
+}
+
+.main-title {
+    font-size: clamp(48px, 9vw, 82px);
+    line-height: 0.95;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #8cff2e;
+    text-shadow:
+        0 3px 0 #176000,
+        0 7px 15px rgba(0,0,0,0.7);
+}
+
+.tagline {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 9px 25px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ffb300, #ffd740);
+    color: #111;
+    font-weight: 900;
+    font-size: 14px;
+}
+
+/* STADIUM */
+
+.stadium {
+    height: 100px;
+    margin: 25px 0;
+    border-radius: 60% 60% 0 0;
+
+    background:
+        radial-gradient(circle at 15% 60%, white 0 4px, transparent 6px),
+        radial-gradient(circle at 85% 60%, white 0 4px, transparent 6px),
+        radial-gradient(circle at 30% 30%, white 0 3px, transparent 5px),
+        radial-gradient(circle at 70% 30%, white 0 3px, transparent 5px),
+        linear-gradient(to bottom, #102a50, #08182f 65%, #126125);
+
+    border-bottom: 4px solid #42a82e;
+}
+
+/* RULES */
+
+.rules-card {
+    background: linear-gradient(145deg, #29175d, #120b2d);
+    border: 1px solid #8b5cff;
+    border-radius: 20px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.rules-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 18px;
+}
+
+.rule {
+    padding: 9px 0;
+    color: #e9ddff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* STATS */
+
+.stat-card {
+    background: linear-gradient(145deg, #12345d, #07182d);
+    border: 1px solid #3478b9;
+    border-radius: 18px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.stat-icon {
+    font-size: 24px;
+}
+
+.stat-label {
+    color: #a9c6e7;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    color: white;
+    font-size: 31px;
+    font-weight: 900;
+}
+
+/* WHO AM I */
+
+.section-title {
+    background: linear-gradient(90deg, #147ad8, #083e76);
+    border: 2px solid #37aaff;
+    border-radius: 18px 18px 5px 5px;
+    padding: 13px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 900;
+    margin-top: 28px;
+}
+
+.mystery-card {
+    min-height: 145px;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(38,110,180,0.35),
+            transparent 45%
+        ),
+        linear-gradient(145deg, #071b38, #031020);
+
+    border: 1px solid #285b91;
+    border-radius: 5px 5px 18px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.mystery-icon {
+    font-size: 62px;
+}
+
+.mystery-text {
+    color: #8fa9c7;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* CLUES */
+
+.clue-card {
+    background: linear-gradient(145deg, #102b4d, #07182e);
+    border: 1px solid #2d557d;
+    border-radius: 14px;
+    padding: 15px 18px;
+    margin: 10px 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.clue-active {
+    border: 2px solid #ffd400;
+    box-shadow: 0 0 18px rgba(255,212,0,0.2);
+}
+
+.clue-locked {
+    color: #637c99;
+}
+
+.clue-counter {
+    text-align: center;
+    color: #ffd400;
+    font-size: 19px;
+    font-weight: 900;
+    margin: 18px 0;
+}
+
+/* RESULT */
+
+.result-card {
+    background: linear-gradient(145deg, #063f35, #031f1c);
+    border: 2px solid #16d3a0;
+    border-radius: 18px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    color: white;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+/* FINAL */
+
+.final-card {
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            rgba(255,196,0,0.18),
+            transparent 45%
+        ),
+        linear-gradient(145deg, #102b4d, #050e1c);
+
+    border: 2px solid #ffd400;
+    border-radius: 25px;
+    padding: 35px 20px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.final-trophy {
+    font-size: 70px;
+}
+
+.final-title {
+    font-size: 44px;
+    font-weight: 900;
+    color: #ffd400;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
 
     .block-container {
-        max-width: 1050px;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
-    }
-
-    /* ---------- HIDE DEFAULT STREAMLIT ---------- */
-
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    footer {
-        visibility: hidden;
-    }
-
-    header {
-        visibility: hidden;
-    }
-
-    /* ---------- TITLE ---------- */
-
-    .game-title {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .welcome-text {
-        font-size: 18px;
-        font-weight: 800;
-        letter-spacing: 4px;
-        color: #ffffff;
-        margin-bottom: 5px;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .main-title {
-        font-size: clamp(48px, 9vw, 82px);
-        line-height: 0.95;
-        font-weight: 900;
-        letter-spacing: 2px;
-        color: #8cff2e;
-        text-shadow:
-            0 3px 0 #1c6500,
-            0 7px 15px rgba(0,0,0,0.7);
+        font-size: 52px;
     }
 
-    .tagline {
-        display: inline-block;
-        margin-top: 15px;
-        padding: 9px 25px;
-        border-radius: 30px;
-        background: linear-gradient(
-            90deg,
-            #ffb300,
-            #ffd740
-        );
-        color: #101010;
-        font-weight: 800;
+    .welcome-text {
         font-size: 14px;
-    }
-
-    /* ---------- STADIUM ---------- */
-
-    .stadium {
-        height: 100px;
-        margin: 25px 0;
-        border-radius: 60% 60% 0 0;
-        background:
-            radial-gradient(
-                circle at 15% 65%,
-                white 0 4px,
-                transparent 6px
-            ),
-            radial-gradient(
-                circle at 85% 65%,
-                white 0 4px,
-                transparent 6px
-            ),
-            radial-gradient(
-                circle at 30% 35%,
-                white 0 3px,
-                transparent 5px
-            ),
-            radial-gradient(
-                circle at 70% 35%,
-                white 0 3px,
-                transparent 5px
-            ),
-            linear-gradient(
-                to bottom,
-                #102a50,
-                #08182f 65%,
-                #126125
-            );
-
-        border-bottom: 4px solid #42a82e;
-    }
-
-    /* ---------- RULE CARD ---------- */
-
-    .rules-card {
-        background:
-            linear-gradient(
-                145deg,
-                #29175d,
-                #120b2d
-            );
-
-        border: 1px solid #8b5cff;
-        border-radius: 20px;
-        padding: 24px;
-        margin: 20px 0;
-        box-shadow:
-            0 10px 30px rgba(0,0,0,0.35);
-    }
-
-    .rules-title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: 900;
-        margin-bottom: 18px;
-        color: #ffffff;
-    }
-
-    .rule {
-        padding: 9px 0;
-        color: #e9ddff;
-        font-size: 15px;
-        font-weight: 600;
-    }
-
-    /* ---------- STAT CARDS ---------- */
-
-    .stat-card {
-        background:
-            linear-gradient(
-                145deg,
-                #12345d,
-                #07182d
-            );
-
-        border: 1px solid #3478b9;
-        border-radius: 18px;
-        padding: 15px;
-        text-align: center;
-        box-shadow:
-            0 8px 25px rgba(0,0,0,0.3);
-    }
-
-    .stat-icon {
-        font-size: 24px;
-    }
-
-    .stat-label {
-        color: #a9c6e7;
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 1px;
     }
 
     .stat-value {
-        color: white;
-        font-size: 31px;
-        font-weight: 900;
+        font-size: 26px;
     }
 
-    /* ---------- WHO AM I ---------- */
-
-    .section-title {
-        background:
-            linear-gradient(
-                90deg,
-                #147ad8,
-                #083e76
-            );
-
-        border: 2px solid #37aaff;
-        border-radius: 18px 18px 5px 5px;
-        padding: 13px;
-        text-align: center;
-        font-size: 25px;
-        font-weight: 900;
-        margin-top: 28px;
-    }
-
-    .mystery-card {
-        min-height: 145px;
-
-        background:
-            radial-gradient(
-                circle at 50% 30%,
-                rgba(38,110,180,0.35),
-                transparent 45%
-            ),
-            linear-gradient(
-                145deg,
-                #071b38,
-                #031020
-            );
-
-        border: 1px solid #285b91;
-        border-radius: 5px 5px 18px 18px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        text-align: center;
-        margin-bottom: 15px;
-    }
-
-    .mystery-icon {
-        font-size: 62px;
-    }
-
-    .mystery-text {
-        color: #8fa9c7;
-        font-weight: 600;
+    .clue-card {
         font-size: 14px;
     }
 
-    /* ---------- CLUES ---------- */
-
-    .clue-card {
-        background:
-            linear-gradient(
-                145deg,
-                #102b4d,
-                #07182e
-            );
-
-        border: 1px solid #2d557d;
-        border-radius: 14px;
-
-        padding: 15px 18px;
-        margin: 10px 0;
-
-        color: white;
-        font-size: 16px;
-        font-weight: 600;
-
-        box-shadow:
-            0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .clue-active {
-        border: 2px solid #ffd400;
-
-        box-shadow:
-            0 0 18px rgba(255,212,0,0.18);
-    }
-
-    .clue-locked {
-        color: #637c99;
-    }
-
-    .clue-counter {
-        text-align: center;
-        color: #ffd400;
-        font-size: 19px;
-        font-weight: 900;
-        margin: 18px 0;
-    }
-
-    /* ---------- RESULT ---------- */
-
-    .result-card {
-        background:
-            linear-gradient(
-                145deg,
-                #063f35,
-                #031f1c
-            );
-
-        border: 2px solid #16d3a0;
-        border-radius: 18px;
-
-        padding: 20px;
-        margin: 20px 0;
-
-        text-align: center;
-
-        color: white;
-        font-size: 19px;
-        font-weight: 700;
-    }
-
-    /* ---------- FINAL SCORE ---------- */
-
-    .final-card {
-        background:
-            radial-gradient(
-                circle at 50% 15%,
-                rgba(255,196,0,0.18),
-                transparent 45%
-            ),
-            linear-gradient(
-                145deg,
-                #102b4d,
-                #050e1c
-            );
-
-        border: 2px solid #ffd400;
-        border-radius: 25px;
-
-        padding: 35px 20px;
-        margin: 30px 0;
-
-        text-align: center;
-    }
-
-    .final-trophy {
-        font-size: 70px;
-    }
-
     .final-title {
-        font-size: 44px;
-        font-weight: 900;
-        color: #ffd400;
+        font-size: 36px;
     }
+}
 
-    /* ---------- BUTTONS ---------- */
-
-    .stButton > button {
-        width: 100%;
-        min-height: 48px;
-
-        border-radius: 14px;
-
-        border: 1px solid #4382ba;
-
-        background:
-            linear-gradient(
-                145deg,
-                #173d69,
-                #0a213e
-            );
-
-        color: white;
-
-        font-size: 15px;
-        font-weight: 900;
-
-        transition: all 0.2s ease;
-    }
-
-    .stButton > button:hover {
-        border-color: #8cff2e;
-        color: #8cff2e;
-        transform: translateY(-2px);
-    }
-
-    /* ---------- GUESS BUTTON ---------- */
-
-    div[data-testid="stFormSubmitButton"] button {
-        background:
-            linear-gradient(
-                90deg,
-                #55d914,
-                #a2ff38
-            ) !important;
-
-        color: #082000 !important;
-
-        border: none !important;
-
-        font-size: 17px !important;
-        font-weight: 900 !important;
-    }
-
-    /* ---------- INPUT ---------- */
-
-    .stTextInput input {
-        background: #07182d !important;
-        color: white !important;
-
-        border: 1px solid #3571a8 !important;
-        border-radius: 12px !important;
-
-        min-height: 48px !important;
-
-        font-size: 16px !important;
-    }
-
-    .stTextInput input:focus {
-        border-color: #8cff2e !important;
-        box-shadow:
-            0 0 10px rgba(140,255,46,0.2) !important;
-    }
-
-    /* ---------- PROGRESS ---------- */
-
-    .stProgress > div > div > div {
-        background:
-            linear-gradient(
-                90deg,
-                #3b9cff,
-                #8cff2e
-            );
-    }
-
-    /* ---------- MOBILE ---------- */
-
-    @media (max-width: 700px) {
-
-        .block-container {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .main-title {
-            font-size: 52px;
-        }
-
-        .welcome-text {
-            font-size: 14px;
-        }
-
-        .stat-value {
-            font-size: 26px;
-        }
-
-        .clue-card {
-            font-size: 14px;
-        }
-
-        .final-title {
-            font-size: 36px;
-        }
-    }
-
-    </style>
-    """),
-    unsafe_allow_html=True
-)
+</style>
+""")
 
 # =========================================================
 # PLAYER DATABASE
@@ -476,7 +306,6 @@ st.markdown(
 
 players = [
 
-    # INDIA
     {
         "name": "MS Dhoni",
         "aliases": ["dhoni", "msd", "ms dhoni"],
@@ -516,7 +345,7 @@ players = [
         "clues": [
             "🇮🇳 I represented India.",
             "🏏 I was known for white-ball cricket.",
-            "💛 I am strongly associated with CSK.",
+            "💛 I am strongly associated with Chennai Super Kings.",
             "👑 I am called Mr. IPL."
         ]
     },
@@ -550,7 +379,7 @@ players = [
             "🇮🇳 I represented India.",
             "🏏 I am a left-handed batter.",
             "🎯 I am a left-arm spinner.",
-            "💛 I am strongly associated with CSK."
+            "💛 I am strongly associated with Chennai Super Kings."
         ]
     },
 
@@ -587,7 +416,6 @@ players = [
         ]
     },
 
-    # AUSTRALIA
     {
         "name": "Ricky Ponting",
         "aliases": ["ponting", "ricky", "ricky ponting"],
@@ -643,7 +471,6 @@ players = [
         ]
     },
 
-    # ENGLAND
     {
         "name": "Ben Stokes",
         "aliases": ["stokes", "ben stokes"],
@@ -677,7 +504,6 @@ players = [
         ]
     },
 
-    # SOUTH AFRICA
     {
         "name": "AB de Villiers",
         "aliases": [
@@ -719,7 +545,6 @@ players = [
         ]
     },
 
-    # PAKISTAN
     {
         "name": "Babar Azam",
         "aliases": ["babar", "babar azam"],
@@ -742,7 +567,6 @@ players = [
         ]
     },
 
-    # SRI LANKA
     {
         "name": "Kumar Sangakkara",
         "aliases": ["sanga", "sangakkara", "kumar sangakkara"],
@@ -765,7 +589,6 @@ players = [
         ]
     },
 
-    # WEST INDIES
     {
         "name": "Chris Gayle",
         "aliases": ["gayle", "chris gayle", "universe boss"],
@@ -788,7 +611,6 @@ players = [
         ]
     },
 
-    # NEW ZEALAND
     {
         "name": "Kane Williamson",
         "aliases": ["kane", "williamson", "kane williamson"],
@@ -811,7 +633,6 @@ players = [
         ]
     },
 
-    # AFGHANISTAN
     {
         "name": "Rashid Khan",
         "aliases": ["rashid", "rashid khan"],
@@ -828,65 +649,64 @@ players = [
 # SESSION STATE
 # =========================================================
 
-defaults = {
-    "started": False,
-    "player": None,
-    "clue_number": 0,
-    "score": 0,
-    "round": 1,
-    "message": "",
-    "game_over": False,
-    "round_finished": False
-}
+if "started" not in st.session_state:
+    st.session_state.started = False
 
-for key, value in defaults.items():
+if "player" not in st.session_state:
+    st.session_state.player = None
 
-    if key not in st.session_state:
-        st.session_state[key] = value
+if "clue_number" not in st.session_state:
+    st.session_state.clue_number = 0
 
-
-# =========================================================
-# GAME FUNCTIONS
-# =========================================================
-
-def start_game():
-
-    st.session_state.started = True
-    st.session_state.round = 1
+if "score" not in st.session_state:
     st.session_state.score = 0
-    st.session_state.game_over = False
-    st.session_state.round_finished = False
+
+if "round" not in st.session_state:
+    st.session_state.round = 1
+
+if "message" not in st.session_state:
     st.session_state.message = ""
 
-    new_player()
+if "round_finished" not in st.session_state:
+    st.session_state.round_finished = False
 
+if "game_over" not in st.session_state:
+    st.session_state.game_over = False
+
+# =========================================================
+# FUNCTIONS
+# =========================================================
 
 def new_player():
-
     st.session_state.player = random.choice(players)
     st.session_state.clue_number = 0
     st.session_state.message = ""
     st.session_state.round_finished = False
 
 
+def start_game():
+    st.session_state.started = True
+    st.session_state.score = 0
+    st.session_state.round = 1
+    st.session_state.game_over = False
+    st.session_state.round_finished = False
+    new_player()
+
+
 def next_round():
 
     if st.session_state.round >= 5:
-
         st.session_state.game_over = True
-
     else:
-
         st.session_state.round += 1
         new_player()
 
 
 def normalize_text(text):
-
     return "".join(
-        character.lower()
-        for character in text
-        if character.isalnum()
+        char.lower()
+        for char in text
+        if char.isalnum()
     )
 
 
@@ -897,19 +717,15 @@ def is_correct_answer(answer, player):
     if not answer:
         return False
 
-    possible_answers = [
-        player["name"]
-    ] + player["aliases"]
+    possible_answers = [player["name"]] + player["aliases"]
 
     for possible in possible_answers:
 
         possible = normalize_text(possible)
 
-        # Exact match
         if answer == possible:
             return True
 
-        # Small spelling mistakes
         similarity = SequenceMatcher(
             None,
             answer,
@@ -929,9 +745,7 @@ def check_answer(answer):
     if is_correct_answer(answer, player):
 
         points = max(
-            10 - (
-                st.session_state.clue_number * 2
-            ),
+            10 - (st.session_state.clue_number * 2),
             2
         )
 
@@ -973,62 +787,54 @@ def check_answer(answer):
 
 if not st.session_state.started:
 
-    st.markdown(
-        textwrap.dedent("""
-        <div class="game-title">
+    st.html("""
+    <div class="game-title">
 
-            <div class="welcome-text">
-                🏏 WELCOME TO
-            </div>
-
-            <div class="main-title">
-                GUESS THE<br>
-                CRICKETER
-            </div>
-
-            <div class="tagline">
-                THINK YOU KNOW CRICKET? PROVE IT! 🔥
-            </div>
-
+        <div class="welcome-text">
+            🏏 WELCOME TO
         </div>
 
-        <div class="stadium"></div>
-        """),
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        textwrap.dedent("""
-        <div class="rules-card">
-
-            <div class="rules-title">
-                🎮 HOW TO PLAY
-            </div>
-
-            <div class="rule">
-                🕵️ A cricketer is picked randomly.
-            </div>
-
-            <div class="rule">
-                💡 Clues are revealed one by one.
-            </div>
-
-            <div class="rule">
-                ⭐ Guess early to earn more points.
-            </div>
-
-            <div class="rule">
-                🏆 Complete 5 rounds.
-            </div>
-
-            <div class="rule">
-                🔥 Small spelling mistakes are allowed.
-            </div>
-
+        <div class="main-title">
+            GUESS THE<br>
+            CRICKETER
         </div>
-        """),
-        unsafe_allow_html=True
-    )
+
+        <div class="tagline">
+            THINK YOU KNOW CRICKET? PROVE IT! 🔥
+        </div>
+
+    </div>
+
+    <div class="stadium"></div>
+
+    <div class="rules-card">
+
+        <div class="rules-title">
+            🎮 HOW TO PLAY
+        </div>
+
+        <div class="rule">
+            🕵️ A cricketer is picked randomly.
+        </div>
+
+        <div class="rule">
+            💡 Clues are revealed one by one.
+        </div>
+
+        <div class="rule">
+            ⭐ Guess early to earn more points.
+        </div>
+
+        <div class="rule">
+            🏆 Complete 5 rounds.
+        </div>
+
+        <div class="rule">
+            🔥 Small spelling mistakes are allowed.
+        </div>
+
+    </div>
+    """)
 
     st.write("")
 
@@ -1038,92 +844,64 @@ if not st.session_state.started:
         use_container_width=True
     )
 
-
 # =========================================================
-# FINAL SCORE SCREEN
+# FINAL SCORE
 # =========================================================
 
 elif st.session_state.game_over:
 
     st.balloons()
 
-    st.markdown(
-        textwrap.dedent("""
-        <div class="final-card">
+    st.html(f"""
+    <div class="final-card">
 
-            <div class="final-trophy">
-                🏆
+        <div class="final-trophy">
+            🏆
+        </div>
+
+        <div class="final-title">
+            GAME COMPLETE!
+        </div>
+
+        <p>
+            You survived all 5 rounds!
+        </p>
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⭐
             </div>
 
-            <div class="final-title">
-                GAME COMPLETE!
+            <div class="stat-label">
+                FINAL SCORE
             </div>
 
-            <p>
-                You survived all 5 rounds!
-            </p>
+            <div class="stat-value">
+                {st.session_state.score} / 50
+            </div>
 
         </div>
-        """),
-        unsafe_allow_html=True
-    )
 
-    st.markdown(
-        textwrap.dedent(
-            f"""
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    ⭐
-                </div>
-
-                <div class="stat-label">
-                    FINAL SCORE
-                </div>
-
-                <div class="stat-value">
-                    {st.session_state.score} / 50
-                </div>
-
-            </div>
-            """
-        ),
-        unsafe_allow_html=True
-    )
-
-    st.write("")
+    </div>
+    """)
 
     score = st.session_state.score
 
     if score >= 45:
-
-        st.success(
-            "👑 CRICKET GOD! Absolutely insane!"
-        )
+        st.success("👑 CRICKET GOD! Absolutely insane!")
 
     elif score >= 35:
-
-        st.success(
-            "🔥 CRICKET MASTER! Outstanding!"
-        )
+        st.success("🔥 CRICKET MASTER! Outstanding!")
 
     elif score >= 25:
-
-        st.info(
-            "👏 Great job! You really know your cricket!"
-        )
+        st.info("👏 Great job! You really know your cricket!")
 
     elif score >= 15:
-
-        st.warning(
-            "😄 Not bad! Keep watching cricket!"
-        )
+        st.warning("😄 Not bad! Keep watching cricket!")
 
     else:
-
-        st.error(
-            "😂 Looks like you need more cricket!"
-        )
+        st.error("😂 Looks like you need more cricket!")
 
     st.write("")
 
@@ -1133,219 +911,135 @@ elif st.session_state.game_over:
         use_container_width=True
     )
 
-
 # =========================================================
 # GAME SCREEN
 # =========================================================
 
 else:
 
-    # ---------- GAME TITLE ----------
+    # TITLE
+    st.html("""
+    <div class="game-title">
 
-    st.markdown(
-        textwrap.dedent("""
-        <div class="game-title">
-
-            <div class="welcome-text">
-                🏏 GUESS THE
-            </div>
-
-            <div class="main-title">
-                CRICKETER
-            </div>
-
+        <div class="welcome-text">
+            🏏 GUESS THE
         </div>
-        """),
-        unsafe_allow_html=True
-    )
 
-    # ---------- ROUND PROGRESS ----------
+        <div class="main-title">
+            CRICKETER
+        </div>
 
+    </div>
+    """)
+
+    # PROGRESS
     st.progress(
         st.session_state.round / 5,
-        text=(
-            f"🏏 ROUND "
-            f"{st.session_state.round} / 5"
-        )
+        text=f"🏏 ROUND {st.session_state.round} / 5"
     )
 
-    # ---------- STAT CARDS ----------
-
+    # STATS
     col1, col2, col3 = st.columns(3)
 
     points = max(
-        10 - (
-            st.session_state.clue_number * 2
-        ),
+        10 - (st.session_state.clue_number * 2),
         2
     )
 
     with col1:
-
-        st.markdown(
-            textwrap.dedent(
-                f"""
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        🏏
-                    </div>
-
-                    <div class="stat-label">
-                        ROUND
-                    </div>
-
-                    <div class="stat-value">
-                        {st.session_state.round}/5
-                    </div>
-
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
+        st.html(f"""
+        <div class="stat-card">
+            <div class="stat-icon">🏏</div>
+            <div class="stat-label">ROUND</div>
+            <div class="stat-value">
+                {st.session_state.round}/5
+            </div>
+        </div>
+        """)
 
     with col2:
-
-        st.markdown(
-            textwrap.dedent(
-                f"""
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        ⭐
-                    </div>
-
-                    <div class="stat-label">
-                        SCORE
-                    </div>
-
-                    <div class="stat-value">
-                        {st.session_state.score}
-                    </div>
-
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
+        st.html(f"""
+        <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-label">SCORE</div>
+            <div class="stat-value">
+                {st.session_state.score}
+            </div>
+        </div>
+        """)
 
     with col3:
-
-        st.markdown(
-            textwrap.dedent(
-                f"""
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        🏆
-                    </div>
-
-                    <div class="stat-label">
-                        POINTS
-                    </div>
-
-                    <div class="stat-value">
-                        {points}
-                    </div>
-
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
-
-    # ---------- WHO AM I ----------
-
-    st.markdown(
-        textwrap.dedent("""
-        <div class="section-title">
-            🔍 WHO AM I?
+        st.html(f"""
+        <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-label">POINTS</div>
+            <div class="stat-value">
+                {points}
+            </div>
         </div>
+        """)
 
-        <div class="mystery-card">
+    # WHO AM I
+    st.html("""
+    <div class="section-title">
+        🔍 WHO AM I?
+    </div>
 
-            <div>
+    <div class="mystery-card">
 
-                <div class="mystery-icon">
-                    🏏❓
-                </div>
-
-                <div class="mystery-text">
-                    IDENTIFY THE MYSTERY CRICKETER
-                </div>
-
+        <div>
+            <div class="mystery-icon">
+                🏏❓
             </div>
 
+            <div class="mystery-text">
+                IDENTIFY THE MYSTERY CRICKETER
+            </div>
         </div>
-        """),
-        unsafe_allow_html=True
-    )
+
+    </div>
+    """)
 
     player = st.session_state.player
 
-    # ---------- CLUES ----------
-
+    # CLUES
     for index, clue in enumerate(player["clues"]):
 
         if index <= st.session_state.clue_number:
 
             if index == st.session_state.clue_number:
-
                 class_name = "clue-card clue-active"
-
             else:
-
                 class_name = "clue-card"
 
-            st.markdown(
-                textwrap.dedent(
-                    f"""
-                    <div class="{class_name}">
-                        {clue}
-                    </div>
-                    """
-                ),
-                unsafe_allow_html=True
-            )
+            st.html(f"""
+            <div class="{class_name}">
+                {clue}
+            </div>
+            """)
 
         else:
 
-            st.markdown(
-                textwrap.dedent("""
-                <div class="clue-card clue-locked">
-                    🔒 Mystery clue locked...
-                </div>
-                """),
-                unsafe_allow_html=True
-            )
-
-    st.markdown(
-        textwrap.dedent(
-            f"""
-            <div class="clue-counter">
-                💡 CLUE
-                {st.session_state.clue_number + 1}
-                / 4
+            st.html("""
+            <div class="clue-card clue-locked">
+                🔒 Mystery clue locked...
             </div>
-            """
-        ),
-        unsafe_allow_html=True
-    )
+            """)
 
-    # =====================================================
-    # ANSWER SECTION
-    # =====================================================
+    st.html(f"""
+    <div class="clue-counter">
+        💡 CLUE {st.session_state.clue_number + 1} / 4
+    </div>
+    """)
 
+    # ANSWER
     if not st.session_state.round_finished:
 
         with st.form("guess_form"):
 
             answer = st.text_input(
                 "YOUR ANSWER",
-                placeholder=(
-                    "Enter the cricketer's name..."
-                )
+                placeholder="Enter the cricketer's name..."
             )
 
             submitted = st.form_submit_button(
@@ -1358,7 +1052,6 @@ else:
                 if answer.strip():
 
                     check_answer(answer)
-
                     st.rerun()
 
                 else:
@@ -1387,27 +1080,16 @@ else:
                     "🚫 All clues are already revealed!"
                 )
 
-    # =====================================================
-    # RESULT MESSAGE
-    # =====================================================
-
+    # RESULT
     if st.session_state.message:
 
-        st.markdown(
-            textwrap.dedent(
-                f"""
-                <div class="result-card">
-                    {st.session_state.message}
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
+        st.html(f"""
+        <div class="result-card">
+            {st.session_state.message}
+        </div>
+        """)
 
-    # =====================================================
     # NEXT ROUND
-    # =====================================================
-
     if st.session_state.round_finished:
 
         if st.session_state.round < 5:
@@ -1426,35 +1108,29 @@ else:
                 use_container_width=True
             )
 
-    # =====================================================
     # SCORING
-    # =====================================================
+    st.html("""
+    <div class="rules-card">
 
-    st.markdown(
-        textwrap.dedent("""
-        <div class="rules-card">
-
-            <div class="rules-title">
-                🧠 SCORING
-            </div>
-
-            <div class="rule">
-                🟢 Clue 1 → 10 points
-            </div>
-
-            <div class="rule">
-                🟡 Clue 2 → 8 points
-            </div>
-
-            <div class="rule">
-                🟠 Clue 3 → 6 points
-            </div>
-
-            <div class="rule">
-                🔴 Clue 4 → 4 points
-            </div>
-
+        <div class="rules-title">
+            🧠 SCORING
         </div>
-        """),
-        unsafe_allow_html=True
-    )
+
+        <div class="rule">
+            🟢 Clue 1 → 10 points
+        </div>
+
+        <div class="rule">
+            🟡 Clue 2 → 8 points
+        </div>
+
+        <div class="rule">
+            🟠 Clue 3 → 6 points
+        </div>
+
+        <div class="rule">
+            🔴 Clue 4 → 4 points
+        </div>
+
+    </div>
+    """)

@@ -3,7 +3,7 @@ import random
 from difflib import SequenceMatcher
 
 # =========================================================
-# PAGE CONFIG
+# PAGE
 # =========================================================
 
 st.set_page_config(
@@ -13,24 +13,23 @@ st.set_page_config(
 )
 
 # =========================================================
-# CUSTOM CSS
+# COMPACT CSS
 # =========================================================
 
-st.html("""
+st.markdown("""
 <style>
 
 .stApp {
-    background:
-        radial-gradient(circle at 50% 0%, #173f72 0%, #081b36 38%, #020914 100%);
-    color: white;
+    background: linear-gradient(135deg, #061426, #0b2340);
 }
 
 .block-container {
-    max-width: 1050px;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+    max-width: 720px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
+/* Hide Streamlit branding */
 #MainMenu {
     visibility: hidden;
 }
@@ -45,263 +44,196 @@ header {
 
 /* TITLE */
 
-.game-title {
+.title {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.welcome-text {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 4px;
-    color: white;
-}
-
-.main-title {
-    font-size: clamp(48px, 9vw, 82px);
-    line-height: 0.95;
+.title h1 {
+    margin: 0;
+    font-size: 38px;
     font-weight: 900;
-    letter-spacing: 2px;
-    color: #8cff2e;
-    text-shadow:
-        0 3px 0 #176000,
-        0 7px 15px rgba(0,0,0,0.7);
+    color: #8cff32;
+    letter-spacing: 1px;
 }
 
-.tagline {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 9px 25px;
-    border-radius: 30px;
-    background: linear-gradient(90deg, #ffb300, #ffd740);
-    color: #111;
-    font-weight: 900;
-    font-size: 14px;
+.title p {
+    margin: 3px 0 0 0;
+    color: #a9c3df;
+    font-size: 13px;
 }
 
-/* STADIUM */
+/* TOP STATS */
 
-.stadium {
-    height: 100px;
-    margin: 25px 0;
-    border-radius: 60% 60% 0 0;
-
-    background:
-        radial-gradient(circle at 15% 60%, white 0 4px, transparent 6px),
-        radial-gradient(circle at 85% 60%, white 0 4px, transparent 6px),
-        radial-gradient(circle at 30% 30%, white 0 3px, transparent 5px),
-        radial-gradient(circle at 70% 30%, white 0 3px, transparent 5px),
-        linear-gradient(to bottom, #102a50, #08182f 65%, #126125);
-
-    border-bottom: 4px solid #42a82e;
-}
-
-/* RULES */
-
-.rules-card {
-    background: linear-gradient(145deg, #29175d, #120b2d);
-    border: 1px solid #8b5cff;
-    border-radius: 20px;
-    padding: 24px;
-    margin: 20px 0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
-.rules-title {
+.stat {
+    background: #102b49;
+    border: 1px solid #28547d;
+    border-radius: 12px;
+    padding: 8px;
     text-align: center;
-    font-size: 24px;
-    font-weight: 900;
-    margin-bottom: 18px;
-}
-
-.rule {
-    padding: 9px 0;
-    color: #e9ddff;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-/* STATS */
-
-.stat-card {
-    background: linear-gradient(145deg, #12345d, #07182d);
-    border: 1px solid #3478b9;
-    border-radius: 18px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-.stat-icon {
-    font-size: 24px;
 }
 
 .stat-label {
-    color: #a9c6e7;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    color: #8eaaca;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .stat-value {
     color: white;
-    font-size: 31px;
+    font-size: 21px;
     font-weight: 900;
+}
+
+/* GAME CARD */
+
+.game-card {
+    background: #081b31;
+    border: 1px solid #28649a;
+    border-radius: 16px;
+    padding: 18px;
+    margin-top: 12px;
 }
 
 /* WHO AM I */
 
-.section-title {
-    background: linear-gradient(90deg, #147ad8, #083e76);
-    border: 2px solid #37aaff;
-    border-radius: 18px 18px 5px 5px;
-    padding: 13px;
+.who {
     text-align: center;
-    font-size: 25px;
+    color: white;
+    font-size: 22px;
     font-weight: 900;
-    margin-top: 28px;
+    margin-bottom: 12px;
 }
 
-.mystery-card {
-    min-height: 145px;
+/* MYSTERY */
 
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            rgba(38,110,180,0.35),
-            transparent 45%
-        ),
-        linear-gradient(145deg, #071b38, #031020);
-
-    border: 1px solid #285b91;
-    border-radius: 5px 5px 18px 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+.mystery {
     text-align: center;
-    margin-bottom: 15px;
+    padding: 10px;
+    color: #718dab;
+    font-size: 13px;
 }
 
 .mystery-icon {
-    font-size: 62px;
+    font-size: 42px;
 }
 
-.mystery-text {
-    color: #8fa9c7;
-    font-weight: 600;
-    font-size: 14px;
-}
+/* CLUE */
 
-/* CLUES */
-
-.clue-card {
-    background: linear-gradient(145deg, #102b4d, #07182e);
-    border: 1px solid #2d557d;
-    border-radius: 14px;
-    padding: 15px 18px;
-    margin: 10px 0;
+.clue {
+    background: #122f50;
+    border: 1px solid #3b6f9b;
+    border-left: 4px solid #ffd400;
+    border-radius: 10px;
+    padding: 12px;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin: 10px 0;
 }
 
-.clue-active {
-    border: 2px solid #ffd400;
-    box-shadow: 0 0 18px rgba(255,212,0,0.2);
-}
+/* CLUE NUMBER */
 
-.clue-locked {
-    color: #637c99;
-}
-
-.clue-counter {
+.clue-number {
     text-align: center;
     color: #ffd400;
-    font-size: 19px;
-    font-weight: 900;
-    margin: 18px 0;
+    font-size: 13px;
+    font-weight: 800;
+    margin: 8px;
+}
+
+/* INPUT */
+
+.stTextInput input {
+    background: #061426 !important;
+    color: white !important;
+    border: 1px solid #3b6f9b !important;
+    border-radius: 10px !important;
+    height: 44px !important;
+}
+
+/* BUTTONS */
+
+.stButton button,
+.stFormSubmitButton button {
+    min-height: 42px !important;
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+}
+
+/* Guess button */
+
+.stFormSubmitButton button {
+    background: #65d51c !important;
+    color: #061400 !important;
+    border: none !important;
+}
+
+/* Next clue */
+
+.next-button button {
+    background: #183e66 !important;
+    color: white !important;
 }
 
 /* RESULT */
 
-.result-card {
-    background: linear-gradient(145deg, #063f35, #031f1c);
-    border: 2px solid #16d3a0;
-    border-radius: 18px;
-    padding: 20px;
-    margin: 20px 0;
+.result {
     text-align: center;
+    background: #073b32;
+    border: 1px solid #18c99a;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
     color: white;
-    font-size: 19px;
     font-weight: 700;
 }
 
 /* FINAL */
 
-.final-card {
-    background:
-        radial-gradient(
-            circle at 50% 15%,
-            rgba(255,196,0,0.18),
-            transparent 45%
-        ),
-        linear-gradient(145deg, #102b4d, #050e1c);
-
-    border: 2px solid #ffd400;
-    border-radius: 25px;
-    padding: 35px 20px;
-    margin: 30px 0;
+.final {
     text-align: center;
+    background: #102b49;
+    border: 2px solid #ffd400;
+    border-radius: 16px;
+    padding: 25px;
 }
 
-.final-trophy {
-    font-size: 70px;
-}
-
-.final-title {
-    font-size: 44px;
-    font-weight: 900;
+.final h1 {
     color: #ffd400;
+    margin: 5px;
 }
 
 /* MOBILE */
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
 
     .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-top: 0.6rem;
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
     }
 
-    .main-title {
-        font-size: 52px;
+    .title h1 {
+        font-size: 30px;
     }
 
-    .welcome-text {
+    .game-card {
+        padding: 12px;
+    }
+
+    .clue {
         font-size: 14px;
     }
 
-    .stat-value {
-        font-size: 26px;
-    }
-
-    .clue-card {
-        font-size: 14px;
-    }
-
-    .final-title {
-        font-size: 36px;
-    }
 }
 
 </style>
-""")
+""", unsafe_allow_html=True)
+
 
 # =========================================================
-# PLAYER DATABASE
+# PLAYERS
 # =========================================================
 
 players = [
@@ -510,7 +442,6 @@ players = [
             "ab",
             "abd",
             "ab de villiers",
-            "abd de villiers",
             "ab devilliers",
             "ab de villers",
             "devilliers"
@@ -655,8 +586,8 @@ if "started" not in st.session_state:
 if "player" not in st.session_state:
     st.session_state.player = None
 
-if "clue_number" not in st.session_state:
-    st.session_state.clue_number = 0
+if "clue" not in st.session_state:
+    st.session_state.clue = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -664,72 +595,67 @@ if "score" not in st.session_state:
 if "round" not in st.session_state:
     st.session_state.round = 1
 
-if "message" not in st.session_state:
-    st.session_state.message = ""
-
-if "round_finished" not in st.session_state:
-    st.session_state.round_finished = False
+if "finished" not in st.session_state:
+    st.session_state.finished = False
 
 if "game_over" not in st.session_state:
     st.session_state.game_over = False
+
+if "message" not in st.session_state:
+    st.session_state.message = ""
+
 
 # =========================================================
 # FUNCTIONS
 # =========================================================
 
-def new_player():
+def choose_player():
+
     st.session_state.player = random.choice(players)
-    st.session_state.clue_number = 0
+    st.session_state.clue = 0
+    st.session_state.finished = False
     st.session_state.message = ""
-    st.session_state.round_finished = False
 
 
 def start_game():
+
     st.session_state.started = True
-    st.session_state.score = 0
     st.session_state.round = 1
+    st.session_state.score = 0
     st.session_state.game_over = False
-    st.session_state.round_finished = False
-    new_player()
+
+    choose_player()
 
 
-def next_round():
+def normalize(text):
 
-    if st.session_state.round >= 5:
-        st.session_state.game_over = True
-    else:
-        st.session_state.round += 1
-        new_player()
-
-
-def normalize_text(text):
     return "".join(
-        char.lower()
-        for char in text
-        if char.isalnum()
+        c.lower()
+        for c in text
+        if c.isalnum()
     )
 
 
-def is_correct_answer(answer, player):
+def correct_answer(answer, player):
 
-    answer = normalize_text(answer)
+    answer = normalize(answer)
 
     if not answer:
         return False
 
-    possible_answers = [player["name"]] + player["aliases"]
+    answers = [player["name"]] + player["aliases"]
 
-    for possible in possible_answers:
+    for option in answers:
 
-        possible = normalize_text(possible)
+        option = normalize(option)
 
-        if answer == possible:
+        if answer == option:
             return True
 
         similarity = SequenceMatcher(
             None,
             answer,
-            possible
+            option
         ).ratio()
 
         if similarity >= 0.78:
@@ -738,47 +664,55 @@ def is_correct_answer(answer, player):
     return False
 
 
-def check_answer(answer):
+def submit_answer(answer):
 
     player = st.session_state.player
 
-    if is_correct_answer(answer, player):
+    if correct_answer(answer, player):
 
-        points = max(
-            10 - (st.session_state.clue_number * 2),
-            2
-        )
+        points = 10 - (st.session_state.clue * 2)
+
+        if points < 4:
+            points = 4
 
         st.session_state.score += points
 
         st.session_state.message = (
-            f"🎉 CORRECT!<br><br>"
-            f"🏏 <strong>{player['name']}</strong><br><br>"
-            f"⭐ +{points} POINTS"
+            f"🎉 Correct! **{player['name']}** "
+            f"• +{points} points"
         )
 
-        st.session_state.round_finished = True
+        st.session_state.finished = True
 
     else:
 
-        if st.session_state.clue_number < 3:
+        if st.session_state.clue < 3:
 
-            st.session_state.clue_number += 1
+            st.session_state.clue += 1
 
             st.session_state.message = (
-                "❌ NOT QUITE!<br><br>"
-                "💡 Here's another clue..."
+                "❌ Not quite! Here's another clue."
             )
 
         else:
 
             st.session_state.message = (
-                f"❌ ROUND OVER<br><br>"
-                f"The answer was "
-                f"<strong>{player['name']}</strong>."
+                f"❌ The answer was **{player['name']}**."
             )
 
-            st.session_state.round_finished = True
+            st.session_state.finished = True
+
+
+def next_round():
+
+    if st.session_state.round >= 5:
+
+        st.session_state.game_over = True
+
+    else:
+
+        st.session_state.round += 1
+        choose_player()
 
 
 # =========================================================
@@ -787,123 +721,73 @@ def check_answer(answer):
 
 if not st.session_state.started:
 
-    st.html("""
-    <div class="game-title">
-
-        <div class="welcome-text">
-            🏏 WELCOME TO
+    st.markdown(
+        """
+        <div class="title">
+            <h1>🏏 GUESS THE CRICKETER</h1>
+            <p>Think you know cricket? Prove it!</p>
         </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-        <div class="main-title">
-            GUESS THE<br>
-            CRICKETER
-        </div>
+    st.info(
+        "💡 Get the answer using the fewest clues to score more points."
+    )
 
-        <div class="tagline">
-            THINK YOU KNOW CRICKET? PROVE IT! 🔥
-        </div>
+    st.markdown("### 🎮 How to play")
 
-    </div>
-
-    <div class="stadium"></div>
-
-    <div class="rules-card">
-
-        <div class="rules-title">
-            🎮 HOW TO PLAY
-        </div>
-
-        <div class="rule">
-            🕵️ A cricketer is picked randomly.
-        </div>
-
-        <div class="rule">
-            💡 Clues are revealed one by one.
-        </div>
-
-        <div class="rule">
-            ⭐ Guess early to earn more points.
-        </div>
-
-        <div class="rule">
-            🏆 Complete 5 rounds.
-        </div>
-
-        <div class="rule">
-            🔥 Small spelling mistakes are allowed.
-        </div>
-
-    </div>
-    """)
-
-    st.write("")
+    st.write("🕵️ A cricketer is selected randomly.")
+    st.write("💡 You get 4 clues.")
+    st.write("⭐ Earlier guesses give more points.")
+    st.write("🔥 Small spelling mistakes are allowed.")
+    st.write("🏆 Complete 5 rounds.")
 
     st.button(
-        "🔥 START THE GAME",
+        "🔥 START GAME",
         on_click=start_game,
         use_container_width=True
     )
 
+
 # =========================================================
-# FINAL SCORE
+# FINAL SCREEN
 # =========================================================
 
 elif st.session_state.game_over:
 
-    st.balloons()
-
-    st.html(f"""
-    <div class="final-card">
-
-        <div class="final-trophy">
-            🏆
+    st.markdown(
+        """
+        <div class="final">
+            <div style="font-size:55px;">🏆</div>
+            <h1>GAME COMPLETE!</h1>
+            <p>All 5 rounds finished!</p>
         </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-        <div class="final-title">
-            GAME COMPLETE!
-        </div>
-
-        <p>
-            You survived all 5 rounds!
-        </p>
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                ⭐
-            </div>
-
-            <div class="stat-label">
-                FINAL SCORE
-            </div>
-
-            <div class="stat-value">
-                {st.session_state.score} / 50
-            </div>
-
-        </div>
-
-    </div>
-    """)
+    st.metric(
+        "FINAL SCORE",
+        f"{st.session_state.score} / 50"
+    )
 
     score = st.session_state.score
 
     if score >= 45:
-        st.success("👑 CRICKET GOD! Absolutely insane!")
+        st.success("👑 CRICKET GOD!")
 
     elif score >= 35:
-        st.success("🔥 CRICKET MASTER! Outstanding!")
+        st.success("🔥 CRICKET MASTER!")
 
     elif score >= 25:
-        st.info("👏 Great job! You really know your cricket!")
+        st.info("👏 Great job!")
 
     elif score >= 15:
-        st.warning("😄 Not bad! Keep watching cricket!")
+        st.warning("😄 Not bad!")
 
     else:
-        st.error("😂 Looks like you need more cricket!")
-
-    st.write("")
+        st.error("😂 Time to watch more cricket!")
 
     st.button(
         "🔄 PLAY AGAIN",
@@ -911,139 +795,139 @@ elif st.session_state.game_over:
         use_container_width=True
     )
 
+
 # =========================================================
-# GAME SCREEN
+# GAME
 # =========================================================
 
 else:
 
     # TITLE
-    st.html("""
-    <div class="game-title">
 
-        <div class="welcome-text">
-            🏏 GUESS THE
+    st.markdown(
+        """
+        <div class="title">
+            <h1>🏏 GUESS THE CRICKETER</h1>
+            <p>Who am I?</p>
         </div>
-
-        <div class="main-title">
-            CRICKETER
-        </div>
-
-    </div>
-    """)
-
-    # PROGRESS
-    st.progress(
-        st.session_state.round / 5,
-        text=f"🏏 ROUND {st.session_state.round} / 5"
+        """,
+        unsafe_allow_html=True
     )
 
     # STATS
-    col1, col2, col3 = st.columns(3)
 
-    points = max(
-        10 - (st.session_state.clue_number * 2),
-        2
+    c1, c2, c3 = st.columns(3)
+
+    points = 10 - (st.session_state.clue * 2)
+
+    if points < 4:
+        points = 4
+
+    with c1:
+
+        st.markdown(
+            f"""
+            <div class="stat">
+                <div class="stat-label">ROUND</div>
+                <div class="stat-value">
+                    {st.session_state.round}/5
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with c2:
+
+        st.markdown(
+            f"""
+            <div class="stat">
+                <div class="stat-label">⭐ SCORE</div>
+                <div class="stat-value">
+                    {st.session_state.score}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with c3:
+
+        st.markdown(
+            f"""
+            <div class="stat">
+                <div class="stat-label">🏆 POINTS</div>
+                <div class="stat-value">
+                    {points}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # PROGRESS
+
+    st.progress(
+        st.session_state.round / 5
     )
 
-    with col1:
-        st.html(f"""
-        <div class="stat-card">
-            <div class="stat-icon">🏏</div>
-            <div class="stat-label">ROUND</div>
-            <div class="stat-value">
-                {st.session_state.round}/5
-            </div>
+    # GAME CARD
+
+    st.markdown(
+        '<div class="game-card">',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="who">🔍 WHO AM I?</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="mystery">
+            <div class="mystery-icon">🏏❓</div>
+            Identify the mystery cricketer
         </div>
-        """)
-
-    with col2:
-        st.html(f"""
-        <div class="stat-card">
-            <div class="stat-icon">⭐</div>
-            <div class="stat-label">SCORE</div>
-            <div class="stat-value">
-                {st.session_state.score}
-            </div>
-        </div>
-        """)
-
-    with col3:
-        st.html(f"""
-        <div class="stat-card">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-label">POINTS</div>
-            <div class="stat-value">
-                {points}
-            </div>
-        </div>
-        """)
-
-    # WHO AM I
-    st.html("""
-    <div class="section-title">
-        🔍 WHO AM I?
-    </div>
-
-    <div class="mystery-card">
-
-        <div>
-            <div class="mystery-icon">
-                🏏❓
-            </div>
-
-            <div class="mystery-text">
-                IDENTIFY THE MYSTERY CRICKETER
-            </div>
-        </div>
-
-    </div>
-    """)
+        """,
+        unsafe_allow_html=True
+    )
 
     player = st.session_state.player
 
-    # CLUES
-    for index, clue in enumerate(player["clues"]):
+    clue = player["clues"][st.session_state.clue]
 
-        if index <= st.session_state.clue_number:
+    st.markdown(
+        f"""
+        <div class="clue">
+            {clue}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-            if index == st.session_state.clue_number:
-                class_name = "clue-card clue-active"
-            else:
-                class_name = "clue-card"
-
-            st.html(f"""
-            <div class="{class_name}">
-                {clue}
-            </div>
-            """)
-
-        else:
-
-            st.html("""
-            <div class="clue-card clue-locked">
-                🔒 Mystery clue locked...
-            </div>
-            """)
-
-    st.html(f"""
-    <div class="clue-counter">
-        💡 CLUE {st.session_state.clue_number + 1} / 4
-    </div>
-    """)
+    st.markdown(
+        f"""
+        <div class="clue-number">
+            💡 CLUE {st.session_state.clue + 1} / 4
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     # ANSWER
-    if not st.session_state.round_finished:
 
-        with st.form("guess_form"):
+    if not st.session_state.finished:
+
+        with st.form("answer_form"):
 
             answer = st.text_input(
-                "YOUR ANSWER",
-                placeholder="Enter the cricketer's name..."
+                "Your answer",
+                placeholder="Enter cricketer name..."
             )
 
             submitted = st.form_submit_button(
-                "🔥 SUBMIT GUESS",
+                "🔥 GUESS",
                 use_container_width=True
             )
 
@@ -1051,25 +935,28 @@ else:
 
                 if answer.strip():
 
-                    check_answer(answer)
+                    submit_answer(answer)
                     st.rerun()
 
                 else:
 
                     st.warning(
-                        "⚠️ Enter a cricketer's name!"
+                        "Enter a name first!"
                     )
 
-        st.write("")
+        st.markdown(
+            '<div class="next-button">',
+            unsafe_allow_html=True
+        )
 
         if st.button(
-            "💡 REVEAL NEXT CLUE",
+            "💡 NEXT CLUE",
             use_container_width=True
         ):
 
-            if st.session_state.clue_number < 3:
+            if st.session_state.clue < 3:
 
-                st.session_state.clue_number += 1
+                st.session_state.clue += 1
                 st.session_state.message = ""
 
                 st.rerun()
@@ -1077,60 +964,38 @@ else:
             else:
 
                 st.warning(
-                    "🚫 All clues are already revealed!"
+                    "All clues are already revealed."
                 )
 
+        st.markdown(
+            '</div>',
+            unsafe_allow_html=True
+        )
+
     # RESULT
+
     if st.session_state.message:
 
-        st.html(f"""
-        <div class="result-card">
-            {st.session_state.message}
-        </div>
-        """)
+        st.markdown(
+            f"""
+            <div class="result">
+                {st.session_state.message}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     # NEXT ROUND
-    if st.session_state.round_finished:
 
-        if st.session_state.round < 5:
+    if st.session_state.finished:
 
-            st.button(
-                "➡️ NEXT ROUND",
-                on_click=next_round,
-                use_container_width=True
-            )
+        st.button(
+            "➡️ NEXT ROUND",
+            on_click=next_round,
+            use_container_width=True
+        )
 
-        else:
-
-            st.button(
-                "🏆 SEE FINAL SCORE",
-                on_click=next_round,
-                use_container_width=True
-            )
-
-    # SCORING
-    st.html("""
-    <div class="rules-card">
-
-        <div class="rules-title">
-            🧠 SCORING
-        </div>
-
-        <div class="rule">
-            🟢 Clue 1 → 10 points
-        </div>
-
-        <div class="rule">
-            🟡 Clue 2 → 8 points
-        </div>
-
-        <div class="rule">
-            🟠 Clue 3 → 6 points
-        </div>
-
-        <div class="rule">
-            🔴 Clue 4 → 4 points
-        </div>
-
-    </div>
-    """)
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
+    )

@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+from difflib import SequenceMatcher
 
 # -----------------------------
 # PAGE CONFIG
@@ -16,6 +17,7 @@ st.set_page_config(
 players = [
     {
         "name": "MS Dhoni",
+        "aliases": ["dhoni", "msd", "ms dhoni"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🧤 I am famous for my wicketkeeping.",
@@ -25,6 +27,7 @@ players = [
     },
     {
         "name": "Virat Kohli",
+        "aliases": ["kohli", "virat", "virat kohli"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🏏 I am a right-handed batsman.",
@@ -34,6 +37,7 @@ players = [
     },
     {
         "name": "Rohit Sharma",
+        "aliases": ["rohit", "rohit sharma", "hitman"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🏏 I am an opening batsman.",
@@ -43,6 +47,7 @@ players = [
     },
     {
         "name": "Suresh Raina",
+        "aliases": ["raina", "suresh raina", "mr ipl"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🏏 I am known mainly as a white-ball cricketer.",
@@ -52,6 +57,7 @@ players = [
     },
     {
         "name": "Sachin Tendulkar",
+        "aliases": ["sachin", "tendulkar", "sachin tendulkar"],
         "clues": [
             "🇮🇳 I am an Indian cricket legend.",
             "🏏 I was known as a technically gifted batsman.",
@@ -61,6 +67,14 @@ players = [
     },
     {
         "name": "AB de Villiers",
+        "aliases": [
+            "ab",
+            "abd",
+            "ab de villiers",
+            "ab devilliers",
+            "ab de villers",
+            "devilliers"
+        ],
         "clues": [
             "🌍 I represented South Africa.",
             "🏏 I was famous for innovative batting.",
@@ -70,6 +84,7 @@ players = [
     },
     {
         "name": "Chris Gayle",
+        "aliases": ["gayle", "chris gayle", "universe boss"],
         "clues": [
             "🌴 I represented the West Indies.",
             "🏏 I am a powerful left-handed batsman.",
@@ -79,6 +94,7 @@ players = [
     },
     {
         "name": "Jasprit Bumrah",
+        "aliases": ["bumrah", "jasprit", "jasprit bumrah"],
         "clues": [
             "🇮🇳 I am an Indian cricketer.",
             "🎯 I am a fast bowler.",
@@ -112,6 +128,9 @@ if "message" not in st.session_state:
 if "game_over" not in st.session_state:
     st.session_state.game_over = False
 
+if "round_finished" not in st.session_state:
+    st.session_state.round_finished = False
+
 
 # -----------------------------
 # FUNCTIONS
@@ -121,6 +140,7 @@ def start_game():
     st.session_state.round = 1
     st.session_state.score = 0
     st.session_state.game_over = False
+    st.session_state.round_finished = False
     st.session_state.message = ""
     new_player()
 
@@ -129,6 +149,7 @@ def new_player():
     st.session_state.player = random.choice(players)
     st.session_state.clue_number = 0
     st.session_state.message = ""
+    st.session_state.round_finished = False
 
 
 def next_round():
@@ -140,35 +161,106 @@ def next_round():
     new_player()
 
 
-def check_answer(answer):
-    answer = answer.strip().lower()
-    correct = st.session_state.player["name"].lower()
+def normalize_text(text):
+    """
+    Remove spaces, punctuation and capitalization
+    so small formatting differences don't matter.
+    """
+    return "".join(
+        character.lower()
+        for character in text
+        if character.isalnum()
+    )
 
-    if answer == correct:
-        points = max(10 - (st.session_state.clue_number * 2), 2)
+
+def is_correct_answer(answer, player):
+    """
+    Accept:
+    - Exact name
+    - Aliases
+    - Small spelling mistakes
+    """
+
+    answer = normalize_text(answer)
+
+    if not answer:
+        return False
+
+    possible_answers = [player["name"]] + player["aliases"]
+
+    for possible in possible_answers:
+
+        possible = normalize_text(possible)
+
+        # Exact match
+        if answer == possible:
+            return True
+
+        # Similar spelling
+        similarity = SequenceMatcher(
+            None,
+            answer,
+            possible
+        ).ratio()
+
+        # Accept minor spelling mistakes
+        if similarity >= 0.78:
+            return True
+
+    return False
+
+
+def check_answer(answer):
+
+    player = st.session_state.player
+
+    if is_correct_answer(answer, player):
+
+        points = max(
+            10 - (st.session_state.clue_number * 2),
+            2
+        )
+
         st.session_state.score += points
 
         st.session_state.message = (
-            f"🎉 CORRECT! It was **{st.session_state.player['name']}**!\n\n"
+            f"🎉 CORRECT!\n\n"
+            f"🏏 It was **{player['name']}**!\n\n"
             f"⭐ You earned **{points} points**."
         )
 
+        st.session_state.round_finished = True
+
     else:
-        if st.session_state.clue_number < len(st.session_state.player["clues"]) - 1:
+
+        if st.session_state.clue_number < len(player["clues"]) - 1:
+
             st.session_state.clue_number += 1
-            st.session_state.message = "❌ Not quite! Here's another clue..."
-        else:
+
             st.session_state.message = (
-                f"❌ Game over for this round!\n\n"
-                f"The answer was **{st.session_state.player['name']}**."
+                "❌ Not quite!\n\n"
+                "💡 Here's another clue..."
             )
+
+        else:
+
+            st.session_state.message = (
+                f"❌ You couldn't get it this time.\n\n"
+                f"🏏 The answer was **{player['name']}**."
+            )
+
+            st.session_state.round_finished = True
 
 
 # -----------------------------
 # TITLE
 # -----------------------------
 st.title("🏏 Guess The Cricketer")
-st.caption("Can you identify the cricketer using the fewest clues?")
+
+st.caption(
+    "Can you identify the cricketer using the fewest clues?"
+)
+
 
 # -----------------------------
 # START SCREEN
@@ -197,6 +289,7 @@ if not st.session_state.started:
         use_container_width=True
     )
 
+
 # -----------------------------
 # GAME SCREEN
 # -----------------------------
@@ -210,20 +303,30 @@ elif not st.session_state.game_over:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric("⭐ Score", st.session_state.score)
+        st.metric(
+            "⭐ Score",
+            st.session_state.score
+        )
 
     with col2:
+
         points_left = max(
             10 - (st.session_state.clue_number * 2),
             2
         )
-        st.metric("🏆 Points", points_left)
+
+        st.metric(
+            "🏆 Points",
+            points_left
+        )
 
     st.divider()
 
     st.subheader("🔍 Who am I?")
 
-    current_clue = st.session_state.player["clues"][
+    player = st.session_state.player
+
+    current_clue = player["clues"][
         st.session_state.clue_number
     ]
 
@@ -231,50 +334,106 @@ elif not st.session_state.game_over:
 
     st.caption(
         f"Clue {st.session_state.clue_number + 1} "
-        f"of {len(st.session_state.player['clues'])}"
+        f"of {len(player['clues'])}"
     )
 
-    answer = st.text_input(
-        "Your answer:",
-        placeholder="Enter the cricketer's name..."
-    )
+    # -----------------------------
+    # ANSWER INPUT
+    # -----------------------------
 
-    col1, col2 = st.columns(2)
+    if not st.session_state.round_finished:
 
-    with col1:
-        if st.button("🔥 GUESS", use_container_width=True):
-            if answer.strip():
-                check_answer(answer)
-                st.rerun()
-            else:
-                st.warning("Enter a name first!")
+        with st.form("guess_form"):
 
-    with col2:
-        if st.button("💡 NEXT CLUE", use_container_width=True):
+            answer = st.text_input(
+                "Your answer:",
+                placeholder="Enter the cricketer's name..."
+            )
+
+            submitted = st.form_submit_button(
+                "🔥 GUESS",
+                use_container_width=True
+            )
+
+            if submitted:
+
+                if answer.strip():
+
+                    check_answer(answer)
+
+                    st.rerun()
+
+                else:
+
+                    st.warning(
+                        "⚠️ Enter a cricketer's name first!"
+                    )
+
+        # -----------------------------
+        # NEXT CLUE
+        # -----------------------------
+
+        if st.button(
+            "💡 NEXT CLUE",
+            use_container_width=True
+        ):
+
             if st.session_state.clue_number < 3:
+
                 st.session_state.clue_number += 1
+
                 st.session_state.message = ""
+
                 st.rerun()
+
             else:
-                st.warning("No more clues!")
+
+                st.warning(
+                    "No more clues available!"
+                )
+
+    # -----------------------------
+    # RESULT
+    # -----------------------------
 
     if st.session_state.message:
+
         st.divider()
-        st.success(st.session_state.message)
 
         if "CORRECT" in st.session_state.message:
-            if st.session_state.round < 5:
-                st.button(
-                    "➡️ NEXT ROUND",
-                    on_click=next_round,
-                    use_container_width=True
-                )
-            else:
-                st.button(
-                    "🏆 SEE FINAL SCORE",
-                    on_click=next_round,
-                    use_container_width=True
-                )
+
+            st.success(
+                st.session_state.message
+            )
+
+        else:
+
+            st.error(
+                st.session_state.message
+            )
+
+    # -----------------------------
+    # NEXT ROUND
+    # -----------------------------
+
+    if st.session_state.round_finished:
+
+        if st.session_state.round < 5:
+
+            st.button(
+                "➡️ NEXT ROUND",
+                on_click=next_round,
+                use_container_width=True
+            )
+
+        else:
+
+            st.button(
+                "🏆 SEE FINAL SCORE",
+                on_click=next_round,
+                use_container_width=True
+            )
+
 
 # -----------------------------
 # GAME OVER
@@ -291,15 +450,28 @@ else:
     )
 
     if st.session_state.score >= 40:
-        st.success("🔥 CRICKET MASTER! Outstanding!")
+
+        st.success(
+            "🔥 CRICKET MASTER! Outstanding!"
+        )
+
     elif st.session_state.score >= 25:
-        st.info("👏 Great job! You know your cricket!")
+
+        st.info(
+            "👏 Great job! You know your cricket!"
+        )
+
     else:
-        st.warning("😄 Good try! Time for a rematch!")
+
+        st.warning(
+            "😄 Good try! Time for a rematch!"
+        )
 
     st.divider()
 
-    st.write("Ready for another game?")
+    st.write(
+        "Ready for another game?"
+    )
 
     st.button(
         "🔄 PLAY AGAIN",

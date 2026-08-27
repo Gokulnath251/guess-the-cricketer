@@ -18,6 +18,8 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+
+/* PAGE */
 .stApp {
     background: #07182d;
 }
@@ -28,38 +30,114 @@ st.markdown("""
     padding-bottom: 1rem;
 }
 
+
+/* TITLE */
 h1 {
     color: #7CFF21 !important;
 }
 
 h2, h3 {
-    color: white !important;
+    color: #FFFFFF !important;
 }
 
 p, label {
-    color: #e6edf5 !important;
+    color: #FFFFFF !important;
 }
 
-.stCaption {
-    color: #9bb5cf !important;
+
+/* INPUT BOX */
+input[type="text"] {
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+
+    border: 2px solid #4b82ad !important;
+    border-radius: 10px !important;
+
+    font-size: 16px !important;
+    caret-color: #111111 !important;
 }
 
-/* Input */
-input {
-    color: white !important;
+/* What you type */
+input[type="text"]:focus {
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+    border-color: #7CFF21 !important;
 }
 
-/* Buttons */
+/* Placeholder */
+input[type="text"]::placeholder {
+    color: #777777 !important;
+    opacity: 1 !important;
+}
+
+
+/* BUTTONS */
 button {
-    min-height: 40px !important;
+    color: #111111 !important;
+    font-weight: 800 !important;
 }
 
-/* Mobile */
+
+/* GUESS BUTTON */
+div[data-testid="stFormSubmitButton"] button {
+    background-color: #7CFF21 !important;
+    color: #071400 !important;
+    border: none !important;
+}
+
+div[data-testid="stFormSubmitButton"] button p {
+    color: #071400 !important;
+}
+
+
+/* NEXT CLUE + OTHER BUTTONS */
+div.stButton button {
+    background-color: #183d63 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #4b82ad !important;
+}
+
+div.stButton button p {
+    color: #FFFFFF !important;
+}
+
+
+/* BUTTON HOVER */
+div.stButton button:hover {
+    background-color: #24577f !important;
+    color: #FFFFFF !important;
+}
+
+
+/* METRICS */
+[data-testid="stMetricValue"] {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #9db8d3 !important;
+}
+
+
+/* ALERTS */
+[data-testid="stAlert"] {
+    color: #FFFFFF !important;
+}
+
+
+/* MOBILE */
 @media (max-width: 600px) {
+
     .block-container {
         padding: 0.5rem;
     }
+
+    h1 {
+        font-size: 30px !important;
+    }
+
 }
+
 </style>
 """, unsafe_allow_html=True)
 
